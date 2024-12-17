@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedGifs API Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/redgifs@1.9.5/dist/redgifs.min.js"></script>
+</head>
+<body>
+    <h1>RedGifs Content</h1>
+    <div id="content"></div>
+
+    <script>
+        window.onload = function() {
+            const GIF_ID = 'simpleemptyzanzibardaygecko'; // Replace with desired GIF ID
+
+            async function fetchRedGifsContent() {
+                try {
+                    const api = new RedgifsAPI();
+                    await api.login(); // Login to the API
+                    const gif = await api.getGif(GIF_ID);
+                    const embedUrl = gif.urls.hd;
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = embedUrl;
+                    iframe.width = '640';
+                    iframe.height = '480';
+                    iframe.frameBorder = '0';
+                    iframe.scrolling = 'no';
+                    iframe.allowFullscreen = true;
+
+                    document.getElementById('content').appendChild(iframe);
+                } catch (error) {
+                    console.error('Error fetching RedGifs content:', error);
+                }
+            }
+
+            fetchRedGifsContent();
+        };
+    </script>
+</body>
+</html>
