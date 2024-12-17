@@ -420,74 +420,6 @@ $(function () {
         addNumberButton(numberButton);
     };
 
-    // Initialize favorites array from localStorage
-    rp.favorites = JSON.parse(localStorage.getItem('redditpFavorites')) || [];
-
-    // Function to add current item to favorites
-    function addToFavorites() {
-        const currentPhoto = rp.photos[rp.session.activeIndex];
-
-        // Check if item is already in favorites
-        const isDuplicate = rp.favorites.some(item =>
-            item.url === currentPhoto.url
-        );
-
-        if (!isDuplicate) {
-            const favoriteItem = {
-                title: currentPhoto.title,
-                url: currentPhoto.url,
-                subreddit: currentPhoto.subreddit,
-                userLink: currentPhoto.userLink,
-                date: new Date().toISOString(),
-                commentsLink: currentPhoto.commentsLink
-            };
-
-            rp.favorites.unshift(favoriteItem); // Add to beginning of array
-            localStorage.setItem('redditpFavorites', JSON.stringify(rp.favorites));
-            updateFavoritesList();
-        }
-    }
-
-    // Function to remove item from favorites
-    function removeFromFavorites(url) {
-        rp.favorites = rp.favorites.filter(item => item.url !== url);
-        localStorage.setItem('redditpFavorites', JSON.stringify(rp.favorites));
-        updateFavoritesList();
-    }
-
-    // Function to update the favorites list display
-    function updateFavoritesList() {
-        const favoritesList = $('#favoritesList');
-        favoritesList.empty();
-
-        rp.favorites.forEach(item => {
-            const date = new Date(item.date).toLocaleDateString();
-            const favoriteItem = $(`
-            <div class="favorite-item">
-                <a href="${item.url}" target="_blank">${item.title}</a>
-                <span class="favorite-date">${date}</span>
-                <button class="remove-favorite" data-url="${item.url}">×</button>
-            </div>
-        `);
-            favoritesList.append(favoriteItem);
-        });
-    }
-
-    // Add click handlers
-    $(document).ready(function () {
-        $('#addToFavorites').click(function () {
-            addToFavorites();
-        });
-
-        $(document).on('click', '.remove-favorite', function () {
-            const url = $(this).data('url');
-            removeFromFavorites(url);
-        });
-
-        // Initialize favorites list on page loadS
-        updateFavoritesList();
-    });
-
     var arrow = {
         left: 37,
         up: 38,
@@ -793,13 +725,15 @@ $(function () {
     // Animate the navigation box       
     //
     var animateNavigationBox = async function (imageIndex) {
+        console.log(imageIndex)
         var photo = rp.photos[imageIndex];
         var subreddit = '/r/' + photo.subreddit;
         var user = '/u/' + photo.userLink + '/submitted';
 
         $('#navboxTitle').html(photo.title);
-        $('#titleDivUser').attr('href', window.location.origin + '?' + user).html(photo.userLink);
         $('#navboxSubreddit').attr('href', window.location.origin + '?' + subreddit).html(subreddit);
+        // Add this line to show the user link under the subreddit
+        $('#titleDivUser').attr('href', window.location.origin + '?' + user).html('by ' + photo.userLink);
         $('#navboxLink').attr('href', photo.url).attr('title', photo.title);
         $('#navboxCommentsLink').attr('href', photo.commentsLink).attr('title', "Comments on reddit");
         $('#navboxUser').attr('href', window.location.origin + '?' + user).attr('user', "User on reddit");

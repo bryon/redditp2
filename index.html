@@ -226,24 +226,19 @@
         </div>
         <div id="titleDiv" class='navbox clouds'>
             <div class="collapser" data-openstate="open">-</div>
+            <h2><a id='titleDivUser' href='#' target="_blank"
+                style='display: block; font-size: 0.8em;'></a></h2>
             <h2 id='navboxTitle'>
                 <noscript>Javascript is required for redditp to work
                     :(</noscript>
             </h2>
-            <h2>
-                by <a id='titleDivUser' href='#' target="_blank"></a>
-                in <a id='navboxSubreddit' href='#' target="_blank">
+            <h3><a id='navboxSubreddit' href='#' target="_blank">
                     <noscript>Javascript is required for redditp to work
                         :(</noscript>
-                </a>
+                </a>                
                 <a id='navboxGallery' style='padding-left:10px;'>
                 </a>
-                <button id="addToFavorites" class="navbutton">★</button>
-                <div id="favoritesDiv" class="navbox clouds">
-                    <h3>Favorites</h3>
-                    <div id="favoritesList"></div>
-                </div>
-            </h2>
+            </h3>
         </div>
 
         <div id="recommend"
@@ -288,14 +283,6 @@
             <!-- Pictures will be injected by jQuery -->
             <div>
                 <!-- Empty div to be animated out, do not erase -->
-            </div>
-        </div>
-
-        <div id="favoritesDiv" class='navbox clouds fadeOnIdle'>
-            <div class="collapser" data-openstate="closed">+</div>
-            <div id="favoritesContents" style="display: none;">
-                <h3>Favorites</h3>
-                <div id="favoritesList"></div>
             </div>
         </div>
 
