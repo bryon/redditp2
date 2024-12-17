@@ -725,25 +725,31 @@ $(function () {
     // Animate the navigation box       
     //
     var animateNavigationBox = async function (imageIndex) {
-        console.log(imageIndex)
         var photo = rp.photos[imageIndex];
         var subreddit = '/r/' + photo.subreddit;
         var user = '/u/' + photo.userLink + '/submitted';
-
+    
         $('#navboxTitle').html(photo.title);
-        $('#navboxSubreddit').attr('href', window.location.origin + '?' + subreddit).html(subreddit);
-        // Add this line to show the user link under the subreddit
-        $('#titleDivUser').attr('href', window.location.origin + '?' + user).html('by ' + photo.userLink);
+        $('#navboxSubreddit')
+            .attr('href', window.location.origin + '?' + subreddit)
+            .html(subreddit);
+        $('#titleDivUser')
+            .attr('href', window.location.origin + '?' + user)
+            .html('by ' + photo.userLink);
         $('#navboxLink').attr('href', photo.url).attr('title', photo.title);
-        $('#navboxCommentsLink').attr('href', photo.commentsLink).attr('title', "Comments on reddit");
-        $('#navboxUser').attr('href', window.location.origin + '?' + user).attr('user', "User on reddit");
+        $('#navboxCommentsLink')
+            .attr('href', photo.commentsLink)
+            .attr('title', "Comments on reddit");
+        $('#navboxUser')
+            .attr('href', window.location.origin + '?' + user)
+            .attr('user', "User on reddit");
         if (photo.galleryItem) {
             $("#navboxGallery").text("Gallery: " + photo.galleryItem + "/" + photo.galleryTotal);
         } else {
             $("#navboxGallery").text("")
         }
         document.title = photo.title + " - " + subreddit + " - redditP";
-
+    
         await toggleNumberButton(rp.session.activeIndex, false);
         await toggleNumberButton(imageIndex, true);
     };
