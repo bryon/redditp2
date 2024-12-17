@@ -144,3 +144,33 @@ label.checkbox { font-weight: bold; }
     cursor: pointer;
 	z-index: 2
 }
+
+#favoritesDiv {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
+}
+
+.favorite-item {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.favorite-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.favorite-button {
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 2px 5px;
+    background: transparent;
+    border: 1px solid #eee;
+    color: #eee;
+    border-radius: 3px;
+}
+
+.favorite-button:hover {
+    background: rgba(255,255,255,0.1);
+}

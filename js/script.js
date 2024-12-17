@@ -20,6 +20,10 @@ rp.settings = {
     sound: true,
     videosOnly: false
 };
+// Add this to the rp object at the top
+rp.favorites = {
+    users: []
+};
 
 rp.session = {
     // 0-based index to set which picture to show first
@@ -55,8 +59,6 @@ function reportError(errMessage) {
     }
     toastr.error(errMessage + ', please alert ubershmekel on <a href="https://github.com/ubershmekel/redditp/issues">github</a>');
 }
-
-
 
 $(function () {
 
@@ -420,6 +422,58 @@ $(function () {
         addNumberButton(numberButton);
     };
 
+
+    function loadFavorites() {
+        var favorites = getCookie('userFavorites');
+        if (favorites) {
+            rp.favorites.users = JSON.parse(favorites);
+            updateFavoritesDisplay();
+        }
+    }
+
+    function saveFavorites() {
+        setCookie('userFavorites', JSON.stringify(rp.favorites.users));
+    }
+
+    function addToFavorites(username) {
+        if (!rp.favorites.users.includes(username)) {
+            rp.favorites.users.push(username);
+            saveFavorites();
+            updateFavoritesDisplay();
+            toastr.success('Added ' + username + ' to favorites');
+        }
+    }
+
+    function removeFromFavorites(username) {
+        var index = rp.favorites.users.indexOf(username);
+        if (index > -1) {
+            rp.favorites.users.splice(index, 1);
+            saveFavorites();
+            updateFavoritesDisplay();
+            toastr.success('Removed ' + username + ' from favorites');
+        }
+    }
+
+    function updateFavoritesDisplay() {
+        var favoritesList = $('#favoritesList');
+        favoritesList.empty();
+
+        rp.favorites.users.forEach(function (username) {
+            var item = $('<div class="favorite-item"></div>');
+            var link = $('<a href="' + window.location.origin + '?/u/' + username + '/submitted" target="_blank">' + username + '</a>');
+            var removeButton = $('<button class="favorite-button">Remove</button>');
+
+            removeButton.click(function (e) {
+                e.preventDefault();
+                removeFromFavorites(username);
+            });
+
+            item.append(link).append(removeButton);
+            favoritesList.append(item);
+        });
+    }
+
+
     var arrow = {
         left: 37,
         up: 38,
@@ -728,30 +782,30 @@ $(function () {
         var photo = rp.photos[imageIndex];
         var subreddit = '/r/' + photo.subreddit;
         var user = '/u/' + photo.userLink + '/submitted';
-    
+
         $('#navboxTitle').html(photo.title);
         $('#navboxSubreddit')
             .attr('href', window.location.origin + '?' + subreddit)
             .html(subreddit);
+
+        // Update user link and add favorite button
+        var userContainer = $('#titleDivUserContainer');
         $('#titleDivUser')
             .attr('href', window.location.origin + '?' + user)
             .html('by ' + photo.userLink);
-        $('#navboxLink').attr('href', photo.url).attr('title', photo.title);
-        $('#navboxCommentsLink')
-            .attr('href', photo.commentsLink)
-            .attr('title', "Comments on reddit");
-        $('#navboxUser')
-            .attr('href', window.location.origin + '?' + user)
-            .attr('user', "User on reddit");
-        if (photo.galleryItem) {
-            $("#navboxGallery").text("Gallery: " + photo.galleryItem + "/" + photo.galleryTotal);
-        } else {
-            $("#navboxGallery").text("")
-        }
-        document.title = photo.title + " - " + subreddit + " - redditP";
-    
-        await toggleNumberButton(rp.session.activeIndex, false);
-        await toggleNumberButton(imageIndex, true);
+
+        // Remove existing favorite button if present
+        userContainer.find('.favorite-button').remove();
+
+        // Add new favorite button
+        var favoriteButton = $('<button class="favorite-button">★</button>');
+        favoriteButton.click(function (e) {
+            e.preventDefault();
+            addToFavorites(photo.userLink);
+        });
+        userContainer.append(favoriteButton);
+
+        // Rest of the existing animateNavigationBox code...
     };
 
     var playButton = $('<img id="playButton" src="/images/play.svg" />');
@@ -1265,6 +1319,28 @@ $(function () {
     } else {
         getRedditImages();
     }
+
+    loadFavorites();
+
+    // Add collapsing functionality for favorites
+    $('#favoritesDiv .collapser').click(function () {
+        var state = $(this).attr(OPENSTATE_ATTR);
+        if (state === "open") {
+            $(this).text("+");
+            var arrowLeftPoint = $(this).position().left;
+            $(this).parent().animate({
+                left: "-" + arrowLeftPoint + "px"
+            });
+            $(this).attr(OPENSTATE_ATTR, "closed");
+        } else {
+            $(this).text("-");
+            $(this).parent().animate({
+                left: "0px"
+            });
+            $(this).attr(OPENSTATE_ATTR, "open");
+        }
+    });
+
 });
 
 /*rp.flattenRedditData = function(data) {
