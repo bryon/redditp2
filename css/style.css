@@ -148,12 +148,6 @@ label.checkbox { font-weight: bold; }
     max-height: 300px;
     overflow-y: auto;
     margin-top: 10px;
-<<<<<<< HEAD
-    display: block; /* Ensure it's visible */
-    background-color: rgba(0,0,0,0.7);
-    padding: 10px;
-=======
->>>>>>> 82fecdc (Adding favorites functionality)
 }
 
 .favorite-item {
@@ -163,10 +157,7 @@ label.checkbox { font-weight: bold; }
     align-items: center;
     gap: 10px;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 82fecdc (Adding favorites functionality)
 .favorite-item a {
     flex: 1;
     color: white;
