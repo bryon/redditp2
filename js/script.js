@@ -1,4 +1,5 @@
 /*
+
   You can save the HTML file and use it locally btw like so:
     file:///wherever/index.html?/r/aww
 
@@ -789,24 +790,19 @@ $(function () {
             .attr('href', window.location.origin + '?' + subreddit)
             .html(subreddit);
 
-        // Update user link and add favorite button
-        var userContainer = $('#titleDivUserContainer');
+        // Update user link 
         $('#titleDivUser')
             .attr('href', window.location.origin + '?' + user)
             .html('by ' + photo.userLink);
 
-        // Remove existing favorite button if present
-        userContainer.find('.favorite-button').remove();
-
-        // Add new favorite button
+        // Update favorite button only
         var favoriteButton = $('<button class="favorite-button">★</button>');
         favoriteButton.click(function (e) {
             e.preventDefault();
             addToFavorites(photo.userLink);
         });
-        userContainer.append(favoriteButton);
-
-        // Rest of the existing animateNavigationBox code...
+        // Replace the existing favorite button
+        $('.favorite-button').replaceWith(favoriteButton);
     };
 
     var playButton = $('<img id="playButton" src="/images/play.svg" />');

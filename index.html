@@ -2,9 +2,6 @@
 <html lang="en">
 
     <head>
-        <!--
-        https://github.com/ubershmekel/redditp
-    -->
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <title>redditP</title>
         <meta name="description"
@@ -21,15 +18,15 @@
         <link rel="stylesheet" type="text/css"
             href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.css" />
         <style>
-        .tagsyo {
-            text-shadow: 0 2px #00f;
-            transition: opacity 1s;
-        }
+            .tagsyo {
+                text-shadow: 0 2px #00f;
+                transition: opacity 1s;
+            }
 
-        .tagsyo:hover {
-            opacity: 0.5;
-        }
-    </style>
+            .tagsyo:hover {
+                opacity: 0.5;
+            }
+        </style>
 
         <!-- Google error reporting -->
         <script defer
@@ -123,6 +120,8 @@
         <script type="text/javascript" src="/js/ie_hacks.js"></script>
         <script type="text/javascript" src="/js/EmbedIt.js"></script>
         <script type="text/javascript" src="/js/script.js"></script>
+
+        
     </head>
 
     <body id="page">
@@ -225,21 +224,19 @@
             </div>
         </div>
         <div id="titleDiv" class='navbox clouds'>
-            <div class="collapser" data-openstate="open">-</div>
-            <h2>
-                <span id="titleDivUserContainer">
-                    <a id='titleDivUser' href='#' target="_blank" style='display: inline; font-size: 0.8em;'></a>
-                    <span style='font-size: 0.8em;'> in </span>
-                    <a id='navboxSubreddit' href='#' target="_blank" style='display: inline; font-size: 0.8em;'></a>
-                </span>
-            </h2>
             <h2 id='navboxTitle'>
                 <noscript>Javascript is required for redditp to work :(</noscript>
             </h2>
-            <h3>
-                <a id='navboxGallery' style='padding-left:10px;'>
-                </a>
-            </h3>
+            <h2>
+            <span style='font-size: 0.8em;'> in </span>
+                <a id='navboxSubreddit' href='#' target="_blank" style='display: inline; font-size: 0.8em;'>Subreddit</a>
+            </h2>
+            <h2>
+                <span id="titleDivUserContainer">
+                    <a id='titleDivUser' href='#' target="_blank" style='display: inline; font-size: 0.8em;'>Username</a>
+                    <button class="favorite-button">★</button>
+                </span>
+                </h2>
         </div>
 
         <div id="favoritesDiv" class='navbox clouds'>

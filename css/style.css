@@ -3,6 +3,9 @@ ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input{margin
 
 /* HTML ELEMENTS */
 body { overflow:hidden; background-color: #000; color:#fff;}
+body {
+    padding-top: 60px; /* Adjust based on the height of the titleDiv */
+}
 
 /* PICTURES */
 #pictureSlider {
@@ -71,7 +74,6 @@ a:hover {
 }
 
 #controlsDiv {position: absolute; bottom: 64px; left: 0;right: 0;}
-#titleDiv {position: absolute; top: 0;left: 0;right: 0;}
 .navbox h2 { padding: 10px 20px 10px 10px; font: bold 20px Helvetica, Arial, Sans-serif; }
 .navbox h3 { padding:  0px 20px 10px 10px; font: bold 12px Helvetica, Arial, Sans-serif; }
 .navbox p { padding:20px 20px 20px 20px; font-family: "Segoe UI","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Arial,Tahoma,Verdana,sans-serif; font-size:13px; color:#111; }
@@ -107,14 +109,14 @@ label.checkbox { font-weight: bold; }
 
 .prevArrow {
     position: absolute;
-    top: 20%;
+    top: 50%;
     left: 10px;
     width: 0; 
     height: 0; 
     
-    border-top: 325px solid transparent;
-    border-bottom: 325px solid transparent; 
-    border-right: 150px solid white; 
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent; 
+    border-right: 50px solid white; 
 	z-index:2;
     opacity: 0.1;
     
@@ -208,10 +210,32 @@ label.checkbox { font-weight: bold; }
 }
 
 #titleDiv {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    background-color: transparent; /* Ensure background is transparent */
+    color: white !important; /* Force text color to white */
+    z-index: 1000; /* Ensure it stays on top */
+    padding: 10px;
+}
+
+#titleDiv a {
+    color: white !important; /* Ensure links are also visible */
+}
+
+#titleDivUserContainer {
+    display: inline-block;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+#titleDivUserContainer a {
+    margin-right: 5px; /* Add some space between username and subreddit */
+}
+
+#titleDiv h2 {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    line-height: 1.2; /* Adjust line height to reduce space */
 }
 
 #favoritesDiv {
@@ -243,3 +267,4 @@ label.checkbox { font-weight: bold; }
     float: right;
     cursor: pointer;
 }
+

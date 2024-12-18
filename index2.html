@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedditP2 - Modern View</title>
+    <meta name="description" content="A modern fullscreen presentation of reddit content" />
+    <meta name="referrer" content="no-referrer">
+    <link rel="shortcut icon" href="/images/favicon.png" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.css" />
+    
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #ff4500;
+            --text-color: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.8);
+            --control-opacity: 0.95;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--primary-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        #mainContainer {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Header */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        /* Controls Panel */
+        #controlPanel {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--overlay-bg);
+            padding: 1rem;
+            border-radius: 10px 0 0 10px;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        /* Content Area */
+        #content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #pictureSlider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--overlay-bg);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            border-radius: 5px;
+        }
+
+        .nav-arrow:hover {
+            opacity: 1;
+        }
+
+        #prevButton {
+            left: 1rem;
+        }
+
+        #nextButton {
+            right: 1rem;
+        }
+
+        /* Modern Button Styles */
+        .button {
+            background: transparent;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .button:hover {
+            background: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        /* Checkbox Styling */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Favorites Panel */
+        #favoritesPanel {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--overlay-bg);
+            padding: 1rem;
+            border-radius: 0 10px 10px 0;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .favorite-button {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Number Buttons */
+        #numberButtonsContainer {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--overlay-bg);
+            padding: 0.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            max-width: 80%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+
+    <!-- Same scripts as original -->
+    <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/toastr@2.1.4/build/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/4.7.1/dash.all.min.js"></script>
+    <script src="https://api.redgifs.com/v2/sdk.js"></script>
+    <script src="/js/jquery.touchwipe.js"></script>
+    <script src="/js/js.cookie.js"></script>
+    <script src="/js/ie_hacks.js"></script>
+    <script src="/js/EmbedIt.js"></script>
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    <div id="mainContainer">
+        <!-- Header -->
+        <header id="header">
+            <div id="titleInfo">
+                <h2 id="navboxTitle">Loading...</h2>
+                <div id="titleDivUserContainer">
+                    <a id="titleDivUser" href="#" target="_blank">Username</a>
+                    <button class="favorite-button">★</button>
+                    <span>in</span>
+                    <a id="navboxSubreddit" href="#" target="_blank">Subreddit</a>
+                </div>
+            </div>
+            <div id="headerControls">
+                <a id="navboxCommentsLink" href="#" class="button">Comments</a>
+                <a id="navboxLink" href="#" class="button">Image</a>
+                <button id="fullScreenButton" class="button">⛶</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="content">
+            <div id="pictureSlider">
+                <div></div>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <div id="prevButton" class="nav-arrow">◀</div>
+            <div id="nextButton" class="nav-arrow">▶</div>
+        </main>
+
+        <!-- Control Panel -->
+        <div id="controlPanel">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="autoNextSlide" checked>
+                <label for="autoNextSlide">Auto-next</label>
+                <input type="text" id="timeToNextSlide" value="5" size="2">s
+            </div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="nsfw" checked>
+                <label for="nsfw">NSFW</label>
+            </div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="sound">
+                <label for="sound">Sound</label>
+            </div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="videosOnly">
+                <label for="videosOnly">Videos Only</label>
+            </div>
+        </div>
+
+        <!-- Favorites Panel -->
+        <div id="favoritesPanel">
+            <h3>Favorites</h3>
+            <div id="favoritesList"></div>
+        </div>
+
+        <!-- Number Buttons -->
+        <div id="numberButtonsContainer">
+            <div class="numberButtonList">
+                <ul id="allNumberButtons"></ul>
+                <ul id="sfwNumberButtons"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
