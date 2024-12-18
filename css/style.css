@@ -103,8 +103,6 @@ label.checkbox { font-weight: bold; }
 .clouds {  }
 .key { background-image:url("../images/bg_key_txt.png"); }
 .flowers { background-image:url("../images/bg_flowers_txt.png"); }
-
-.collapser { border: solid 1px #555; font-size: 20px; color: #bbb; padding: 0 10px; float:right; cursor: hand; cursor: pointer;}
 .checkbox { cursor: hand; cursor: pointer; }
 
 .prevArrow {
@@ -184,11 +182,7 @@ label.checkbox { font-weight: bold; }
     background: rgba(255,255,255,0.1);
 }
 
-#favoritesDiv {
-    transition: left 0.3s ease-in-out;
-    position: absolute;
-    left: 0;
-}
+
 
 #favoritesDiv[data-openstate="closed"] {
     left: -450px; /* Adjust this value based on the width of your favorites box */
@@ -224,12 +218,20 @@ label.checkbox { font-weight: bold; }
     position: absolute;
     top: 200px;
     left: 0;
-    right: 0;
-    width: 450px; /* Match other navboxes */
+    width: 450px;
     background-color: rgba(0,0,0,0.7);
     z-index: 2;
+    transition: left 0.3s ease-in-out;
 }
 
+#favoritesDiv[data-openstate="closed"] {
+    left: -425px; /* Leave 25px visible when collapsed */
+}
+
+#favoritesContents {
+    padding: 10px 25px 10px 0;
+    margin: 0;
+}
 
 .collapser {
     position: relative;

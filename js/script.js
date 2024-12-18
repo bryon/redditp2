@@ -174,22 +174,22 @@ $(function () {
     $('.collapser').click(function () {
         var state = $(this).attr(OPENSTATE_ATTR);
         var navbox = $(this).parent();
-        var boxWidth = navbox.outerWidth(); // Use outerWidth() to include padding/borders
+        var boxWidth = navbox.outerWidth();
         
         if (state === "open") {
             // close it
             $(this).text("+");
+            navbox.attr(OPENSTATE_ATTR, "closed");
             navbox.animate({
                 left: `-${boxWidth - 25}px` // Leave 25px visible
             }, 'fast');
-            $(this).attr(OPENSTATE_ATTR, "closed");
         } else {
             // open it
             $(this).text("-");
+            navbox.attr(OPENSTATE_ATTR, "open");
             navbox.animate({
                 left: "0px"
             }, 'fast');
-            $(this).attr(OPENSTATE_ATTR, "open");
         }
     });
 
