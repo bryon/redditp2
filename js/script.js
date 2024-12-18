@@ -173,21 +173,22 @@ $(function () {
     var OPENSTATE_ATTR = "data-openstate";
     $('.collapser').click(function () {
         var state = $(this).attr(OPENSTATE_ATTR);
+        var navbox = $(this).parent();
+        var boxWidth = navbox.outerWidth(); // Use outerWidth() to include padding/borders
+        
         if (state === "open") {
             // close it
             $(this).text("+");
-            // move to the left just enough so the collapser arrow is visible
-            var arrowLeftPoint = $(this).position().left;
-            $(this).parent().animate({
-                left: "-" + arrowLeftPoint + "px"
-            });
+            navbox.animate({
+                left: `-${boxWidth - 25}px` // Leave 25px visible
+            }, 'fast');
             $(this).attr(OPENSTATE_ATTR, "closed");
         } else {
             // open it
             $(this).text("-");
-            $(this).parent().animate({
+            navbox.animate({
                 left: "0px"
-            });
+            }, 'fast');
             $(this).attr(OPENSTATE_ATTR, "open");
         }
     });
